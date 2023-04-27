@@ -5,7 +5,7 @@ const sheetName = 'BBDD_Memb';
 let dni = 31446785;
 let qu = `Select A,B,C,D,G WHERE A = ${dni}`
 let query = encodeURIComponent(qu);
-const data = [];
+let data = [];
 let url = `${base}&sheet=${sheetName}&tq=${query}`;
 const output = document.querySelector('.output');
 /* 
@@ -16,9 +16,32 @@ Este es el event listener que esta a la espera del envio de datos para iniciar l
 
 document.addEventListener("DOMContentLoaded", function() {
     const submitButton = document.getElementById("submitButton");
-    submitButton.addEventListener("click",validarDni);
+    submitButton.addEventListener("click",executeInit);
 });
 
+/* 
+---------------------------------------------------------
+Este es el event listener que esta a la espera del envio de datos para iniciar la funcion de validacion del dni Store
+---------------------------------------------------------
+*/
+
+async function executeInit() {
+    // Mostrar el modal de espera
+    console.log("inicio modal 1")
+    const waitingModal = new bootstrap.Modal(document.getElementById("waitingModal"), {
+        backdrop: "static",
+        keyboard: false
+    });
+    waitingModal.show();
+    console.log("inicio modal 2")
+
+    // Ejecutar la función init y esperar a que se complete
+    await validarDni();
+    console.log("inicio modal 3")
+
+    // Ocultar el modal de espera
+    waitingModal.hide();
+}
 
 /* 
 ---------------------------------------------------------
@@ -26,6 +49,7 @@ Esta es la funcion que valida que el número de DNI sea válido y de ser asi eje
 ---------------------------------------------------------
 */
 function validarDni() {
+    $('#waitingModal').modal({ show:true });
     dni = parseInt(document.getElementById("dniInput").value);
     if (dni > 1000) {
         // Deja un log de que el dni fue validado
@@ -44,7 +68,8 @@ Esta es la funcion principal que trae y prepara la informacion desde el archivo 
 */
 function init(){
     // Hago la consulta con el fetch que dentro tiene un filtro en sql del numero de DNI y  despues la respuesta la transformo en un objeto json
-    qu = `Select A,B,C,D,G WHERE A = ${dni}`
+    data = [];
+    qu = `Select A,B,C,D,G WHERE A = ${dni}`;
     query = encodeURIComponent(qu);
     url = `${base}&sheet=${sheetName}&tq=${query}`;
     console.log('ready');
@@ -83,6 +108,7 @@ Esta es la funcion que inserta la tabla en el HTML a partir del array de rotulos
 */
 
 function maker(json){
+    output.innerHTML = '';
     const div  = document.createElement('div');
     div.style.display = 'grid';
     
@@ -108,6 +134,8 @@ function maker(json){
             ele.textContent = el[key];
             div.append(ele);
         console.log(keys)
+        $('#waitingModal').modal('hide')
     })
 })
 }
+
