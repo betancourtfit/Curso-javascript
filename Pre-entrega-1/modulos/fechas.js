@@ -2,8 +2,15 @@
 const myArray = [95489618,"juan","Date(2022,7,1)"];
 console.log(myArray)
 
+// Crear una función para formatear la fecha
+export function formatDate(date) {
+  const formattedMonth = date.getMonth() + 1; // Los meses en JavaScript van de 0 a 11
+  const formattedYear = date.getFullYear();
+  return formattedMonth.toString().padStart(2, '0') + '/' + formattedYear;
+}
+
 // Obtener el primer elemento (índice 0) del array
-function convertirFecha (myArray) {
+export function convertirFecha(myArray){
 const dateString = myArray[2];
 console.log(dateString)
 // Extraer los valores de año y mes de la cadena usando una expresión regular
@@ -18,22 +25,15 @@ if (match) {
   // Crear un objeto Date a partir del año y mes extraídos
   const date = new Date(year, month);
 
-  // Crear una función para formatear la fecha
-  function formatDate(date) {
-    const formattedMonth = date.getMonth() + 1; // Los meses en JavaScript van de 0 a 11
-    const formattedYear = date.getFullYear();
-    return formattedMonth.toString().padStart(2, '0') + '/' + formattedYear;
-  }
-
   // Convertir la fecha al formato MM/YYYY
   const formattedDate = formatDate(date);
 
   // Reemplazar el primer elemento del array con la nueva fecha formateada
-  myArray[0] = formattedDate;
   console.log(formattedDate)
   return formattedDate
 }
 }
 
-//console.log(convertirFecha(myArray))
+console.log(convertirFecha(myArray))
+
 

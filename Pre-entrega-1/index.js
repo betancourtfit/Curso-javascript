@@ -1,3 +1,7 @@
+// Importar las funciones para el tratamiento de fechas 
+// Aun no he podido hacer que funcionen las importaciones
+//import {formatDate, convertirFecha} from './modulos/fechas.js';
+
 // Declaracion de variables y constantes
 const sheetID = '1sDzQURSh6jqT4GAOyW-spRsGXUiPFgexOgyYhh0en0E';
 const base = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?`;
@@ -8,6 +12,8 @@ let query = encodeURIComponent(qu);
 let data = [];
 let url = `${base}&sheet=${sheetName}&tq=${query}`;
 const output = document.querySelector('.output');
+
+
 /* 
 ---------------------------------------------------------
 Este es el event listener que esta a la espera del envio de datos para iniciar la funcion de validacion del dni Store
@@ -49,11 +55,11 @@ Esta es la funcion que valida que el número de DNI sea válido y de ser asi eje
 ---------------------------------------------------------
 */
 function validarDni() {
-    $('#waitingModal').modal({ show:true });
     dni = parseInt(document.getElementById("dniInput").value);
     if (dni > 1000) {
         // Deja un log de que el dni fue validado
         console.log("DNI válido:");
+        
         init();
     } else {
         // Muestra un mensaje de error
@@ -81,7 +87,7 @@ function init(){
         const colz = [];
         //Extraigo del json en un array los rotulos de las columnas
         jsData.table.cols.forEach((heading)=>{
-            //console.log(heading);
+            console.log(heading);
             if(heading.label){
                 colz.push(heading.label.toLowerCase().replace(/\s/g,''));
             }
@@ -96,6 +102,8 @@ function init(){
             })
             data.push(row)
         })
+        //console.log(convertirFecha(data[0].ingreso.value));
+
         maker(data);
     })
 
@@ -133,9 +141,7 @@ function maker(json){
             ele.style.border = '1px solid #ddd';
             ele.textContent = el[key];
             div.append(ele);
-        console.log(keys)
-        $('#waitingModal').modal('hide')
+        //console.log(keys)
     })
 })
 }
-
