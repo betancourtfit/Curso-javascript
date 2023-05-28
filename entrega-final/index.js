@@ -43,42 +43,38 @@ async function init() {
                     //console.log(main);
                     const row = {};
                     colz.forEach((ele,ind)=>{
-                        console.log(ele);
+                        //console.log(ele);
                         row[ele] = (main.c[ind] != null) ? main.c[ind].v : '';  
                     });
                     data.push(row);
                 });
-            console.log('se completo el fetch, todo quedo en '+data)
-            console.log('se inicia el luxon')
-            for (let i = 0; i < data.length; i++) {
-                // Obtén los valores de año, mes y día del atributo 'INGRESO' en cada objeto
-            const matches = data[i].ingreso.match(/\d+/g);
-            console.log(matches)
-            
-            const year = Number(matches[0]);
-            const month = Number(matches[1]);
-            console.log(year,month)
-                
-            const day = Number(matches[2]);
-            // Crea un objeto DateTime con Luxon utilizando los valores de año, mes y día
-            const fecha = luxon.DateTime.fromObject({
-                year: year,
-                month: month
-        });
-            // Formatea la fecha utilizando Luxon
-            let f = {month: 'long', year: 'numeric'}
-            const formatoFecha = fecha.setLocale('es-ES').toLocaleString(f);
-            // Asigna el valor formateado al atributo 'INGRESO' en cada objeto
-            data[i].ingreso = formatoFecha; 
-            console.log('iteracion del luxon'+i)   
-            } 
-            // console.log(convertirFecha(data[0].ingreso.value));
-            data = JSON.stringify(data);
-            console.log('eltipo de data de dtaa es '+typeof(data));  
-            console.log(data)   
-            sessionStorage.setItem("dataAlmacenada",data);  
-            resolve();
-            })
+                for (let i = 0; i < data.length; i++) {
+                    // Obtén los valores de año, mes y día del atributo 'INGRESO' en cada objeto
+                const matches = data[i].ingreso.match(/\d+/g);
+                const year = Number(matches[0]);
+                const month = Number(matches[1]);
+                //console.log(year,month)
+                    
+                const day = Number(matches[2]);
+                // Crea un objeto DateTime con Luxon utilizando los valores de año, mes y día
+                const fecha = luxon.DateTime.fromObject({
+                    year: year,
+                    month: month
+            });
+                // Formatea la fecha utilizando Luxon
+                let f = {month: 'long', year: 'numeric'}
+                const formatoFecha = fecha.setLocale('es-ES').toLocaleString(f);
+                // Asigna el valor formateado al atributo 'INGRESO' en cada objeto
+                data[i].ingreso = formatoFecha; 
+                console.log('iteracion del luxon'+i)   
+                } 
+                // console.log(convertirFecha(data[0].ingreso.value));
+                data = JSON.stringify(data);
+                console.log('eltipo de data de dtaa es '+typeof(data));  
+                console.log(data)   
+                sessionStorage.setItem("dataAlmacenada",data);  
+                resolve();
+                })
             .catch(error => {
                 // Mostrar mensaje de error con SweetAlert
                 console.log('error en la funcion de fetch')
@@ -198,7 +194,7 @@ botonReconsulta.addEventListener('click',() => {sessionStorage.clear; output.inn
 
 /* 
 ---------------------------------------------------------
-Modla de espera
+Modal de espera
 ---------------------------------------------------------
 */
 async function executeMaker(json) {
@@ -212,6 +208,7 @@ async function executeMaker(json) {
     console.log("inicio modal 2")
 
     // Ejecutar la función init y esperar a que se complete
+    await new Promise((resolve) => setTimeout(resolve, 3000));
     await maker(json);
     console.log("inicio modal 3")
 
