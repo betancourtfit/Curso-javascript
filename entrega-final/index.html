@@ -16,14 +16,6 @@
     <!-- --------------------------------------------------------------------------------------
     CAMPO Y BOTON -->
     <body>
-        <div class="container mt-5">
-            <div class="row">
-                <div class="col-md-12">
-                    <label for="dniInput">Ingrese su DNI</label>
-                    <input type="number" class="form-control" id="dniInput" placeholder="DNI" min="1001">
-                    <button id="submitButton" class="btn btn-primary mt-2" ">Enviar</button>
-                </div>
-            </div>
         <!-- ------------------Modal de espera ---------------------------------->
         <div class="modal" tabindex="-1" id="waitingModal" role="dialog">
             <div class="modal-dialog">
@@ -41,7 +33,8 @@
     RESULTADO -->
 	<div class="output"></div>
 
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.3.0/build/global/luxon.min.js"></script>
 	<script type="module" src="index.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
