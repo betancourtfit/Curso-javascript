@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Parcel Sandbox</title>
+    <title>LaGuan Club Socios</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Agregar Bootstrap CSS -->
@@ -11,11 +11,19 @@
 </head>
 
 <body>
-    <h1>Laguan Club </h1>
-    <p>Sistema de consulta de status de membresia</p>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="./media/img/laguanclublogo.jpg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                LaGuanClub Socios
+            </a>
+        </div>
+    </nav>
+    <div class="d-flex justify-content-center">
+    <h1>Sistema de consulta de status de membresia</h1>
+    </div>
     <!-- --------------------------------------------------------------------------------------
     CAMPO Y BOTON -->
-    <body>
         <!-- ------------------Modal de espera ---------------------------------->
         <div class="modal" tabindex="-1" id="waitingModal" role="dialog">
             <div class="modal-dialog">
@@ -32,7 +40,13 @@
     <!-- --------------------------------------------------------------------------------------
     RESULTADO -->
 	<div class="output"></div>
-
+<!-- --------------------------------------------------------------------------------------
+    boton de reinicio -->
+    <div class="d-flex justify-content-center pt-5"> 
+        <button type="button" id= "nuevaConsulta" class="btn btn-dark">Consultar un nuevo socio</button>
+    </div>
+<!-- --------------------------------------------------------------------------------------
+    SCRIPTS -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.3.0/build/global/luxon.min.js"></script>
 	<script type="module" src="index.js"></script>
