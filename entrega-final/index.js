@@ -1,9 +1,17 @@
-/* 
+/*
 ---------------------------------------------------------
-Esta es la función que me permite importar los datos desde google sheets al inicio de la sesion 
+Importo la funcion display() del módulo para desplegar el fomrulario de contacto
 ---------------------------------------------------------
 */
-// Declaracion de variables y constantes
+import {displayForm} from './modulos/formulario.js' 
+/*
+---------------------------------------------------------
+1. Acá inicia la declaracion de las funciones despelgar el modal de dni, solicitar la informacion a la base de datos 
+que es un google sheets real, validar si el dni ingresado existe o no y en caso de que exista mostrar 
+información del status del socio
+---------------------------------------------------------
+*/
+// 1.1 Declaracion de variables y constantes necesarias para el fetch de google sheets
 const sheetID = '1sDzQURSh6jqT4GAOyW-spRsGXUiPFgexOgyYhh0en0E';
 let base = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?`;
 const sheetName = 'BBDD_Memb';
@@ -15,6 +23,9 @@ let url = `${base}&sheet=${sheetName}&tq=${query}`;
 let output = document.querySelector('.output');
 sessionStorage.clear()
 
+//-----------------------------------------------------------------------------------
+// 1.2 La funcion init() es la que se encarga de hacer el fetch al google sheets filtrado por el número de dni
+//-----------------------------------------------------------------------------------
 async function init() {
     return new Promise((resolve, reject) => {
         // Hago la consulta con el fetch que dentro tiene un filtro en sql del numero de DNI y  despues la respuesta la transformo en un objeto json
@@ -83,9 +94,12 @@ async function init() {
     })
 }
 
-
 //-----------------------------------------------------------------------------------
-// Mensaje inicial en el que solicito el DNI para contrastarlo con la base de datos
+// 1.3 Esta funcion es la que dispara el modal y valida el dni ingresado si existe en la base de datos
+// si existe entonces avanza con llamar a executemkaer() que es la función que renderiza el resulta no vacío
+// en cambio si el dni no existe, muestra un modal que le da la opción de darse de alta en el club
+//-----------------------------------------------------------------------------------
+
 function validaciondesocio() {
     Swal.fire({
         title: 'Este sitio es exclusivo para socios',
@@ -116,6 +130,14 @@ function validaciondesocio() {
                             icon: 'error',
                             title: 'Oops...',
                             text: 'El DNI ingresado no pertenece a un socio',
+                            showDenyButton:true,
+                            denyButtonText: 'Solicitar alta',
+                            denyButtonColor:'#7CFC00',
+                        }).then((result) => {
+                            if(result.isDenied) {
+                                displayForm();
+                                resolve();
+                            }
                         }).then(() => {
                             validaciondesocio()
                         });
@@ -137,14 +159,15 @@ function validaciondesocio() {
     });
 }  
 
-
+// 1.5 Simplemente invoco la funcion principal que a partir de acá se van invocando el resto de las fucniones
+// en base al flow de condiciones y peticiones del consumidor
 validaciondesocio()
 
 
 
 /* 
 ---------------------------------------------------------
-Esta es la funcion que inserta la tabla en el HTML a partir del array de rotulos y la matriz de filas y columnas
+2. Esta es la funcion que inserta la tabla en el HTML a partir del array de rotulos y la matriz de filas y columnas
 ---------------------------------------------------------
 */
 
@@ -185,7 +208,7 @@ function maker(json){
 
 /* 
 ---------------------------------------------------------
-Evento que ativa la nueva búsqueda
+3. Evento que activa nuevamente la funcion inicial en caso de que el usuario asi lo solicite
 ---------------------------------------------------------
 */
 
@@ -194,7 +217,8 @@ botonReconsulta.addEventListener('click',() => {sessionStorage.clear; output.inn
 
 /* 
 ---------------------------------------------------------
-Modal de espera
+4. Modal de espera que indica al usuario que su petición se hizo con éxito y sólo debe esperar, esta con un 
+timeout porque si no, nunca se me mostraba ya que la consulta es bastante rápida
 ---------------------------------------------------------
 */
 async function executeMaker(json) {
@@ -215,3 +239,4 @@ async function executeMaker(json) {
     // Ocultar el modal de espera
     waitingModal.hide();
 }
+
