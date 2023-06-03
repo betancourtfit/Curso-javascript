@@ -39,7 +39,8 @@ export function displayForm() {
 /* 
 ---------------------------------------------------------
 2. Esta es la funcion que se encarga de enviar la información igresada por el consumidor a un formulario de google
-
+real que puede ser consultado en 
+https://docs.google.com/spreadsheets/d/1V9Yws3HASbny1x_ENg97BEPw_tp2tmCz1-c-Q8k-uSg/edit?usp=sharing
 ---------------------------------------------------------
 */
 function submitForm(e) {
